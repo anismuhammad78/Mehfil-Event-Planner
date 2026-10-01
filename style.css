@@ -1,0 +1,533 @@
+/* style.css - elegant wedding look: picture background, frosted card, gold accents.
+   Layout: Flexbox for progress, stepper and buttons; Grid for form fields. */
+
+:root {
+  --ink: #33202f;
+  --muted: #7a6478;
+  --accent: #7a2e5b;
+  --accent-2: #a4476f;
+  --on-accent: #ffffff;
+  --gold: #b8893b;
+  --line: rgba(122, 46, 91, 0.22);
+  --card: rgba(255, 250, 246, 0.88);
+  --edge: rgba(184, 137, 59, 0.55);
+  --field: rgba(255, 255, 255, 0.7);
+  --chip: rgba(122, 46, 91, 0.1);
+  --error: #b42318;
+  --shadow: 0 24px 60px rgba(60, 16, 48, 0.28);
+  --overlay: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+  --display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --body: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #f6ecf3;
+    --muted: #c4aec8;
+    --accent: #e6a0c8;
+    --accent-2: #d7b0e8;
+    --on-accent: #2b1330;
+    --gold: #e0b866;
+    --line: rgba(230, 160, 200, 0.28);
+    --card: rgba(32, 20, 36, 0.84);
+    --edge: rgba(224, 184, 102, 0.5);
+    --field: rgba(255, 255, 255, 0.07);
+    --chip: rgba(230, 160, 200, 0.16);
+    --error: #ff9a8a;
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+    --overlay: linear-gradient(rgba(22, 8, 26, 0.55), rgba(22, 8, 26, 0.55));
+  }
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  background: #eec9d3;
+  font: 1rem/1.65 var(--body);
+}
+
+/* Background picture: drop a photo named bg.jpg next to index.html to place it over bg.svg. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--overlay), url("bg.jpg"), url("bg.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ---------- card ---------- */
+
+.wrap {
+  max-width: 46rem;
+  margin: clamp(1rem, 4vw, 3rem) auto;
+  padding: clamp(1.4rem, 4.5vw, 2.75rem);
+  background: var(--card);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(16px) saturate(1.1);
+  border: 1px solid var(--edge);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  scroll-margin-top: 1rem;
+}
+
+@media (max-width: 720px) {
+  .wrap { margin-left: 0.75rem; margin-right: 0.75rem; }
+}
+
+.brand {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.1rem, 6vw, 3.1rem);
+  line-height: 1.1;
+  margin: 0.15rem 0 0;
+  color: var(--accent);
+}
+
+h1::after {
+  content: "";
+  display: block;
+  width: 6rem;
+  height: 1px;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.intro {
+  margin: 1rem 0 1.5rem;
+  color: var(--muted);
+  max-width: 34rem;
+}
+
+.note {
+  padding: 0.7rem 1rem;
+  margin: 0 0 1.25rem;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  background: rgba(184, 137, 59, 0.14);
+}
+
+/* ---------- progress bar and stepper (Flexbox) ---------- */
+
+.progress { margin-bottom: 0.4rem; }
+
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.step-label {
+  margin: 0 0 0.45rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.percent {
+  margin: 0 0 0.45rem;
+  flex: none;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.track {
+  height: 8px;
+  background: var(--line);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 25%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold), var(--accent-2));
+  transition: width 0.3s ease;
+}
+
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stepper li {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.stepper li:not(:first-child):not(:last-child) { justify-content: center; }
+.stepper li:last-child { justify-content: flex-end; }
+
+.dot {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+.dot-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.stepper li.is-current { color: var(--ink); font-weight: 600; }
+
+.stepper li.is-current .dot {
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+}
+
+.stepper li.is-done .dot {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.save-status {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 1.25rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+/* ---------- steps ---------- */
+
+.step { animation: stepIn 0.3s ease; }
+
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.step-title {
+  margin: 0 0 0.2rem;
+  font-family: var(--display);
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+/* Two columns on desktop, one on mobile (Grid) */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .field-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+label {
+  display: block;
+  margin-top: 1.1rem;
+  font-weight: 500;
+}
+
+.req { color: var(--error); }
+
+.group { margin-top: 1.4rem; }
+
+.group-label {
+  display: block;
+  font-weight: 600;
+}
+
+input[type=text],
+input[type=email],
+input[type=tel],
+input[type=date],
+input[type=number],
+select,
+textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input::placeholder,
+textarea::placeholder { color: var(--muted); opacity: 0.8; }
+
+input:hover,
+select:hover,
+textarea:hover { border-color: var(--gold); }
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184, 137, 59, 0.28);
+  outline: none;
+}
+
+select option { color: #33202f; background: #ffffff; }
+
+input[aria-invalid="true"] { border-color: var(--error); }
+
+input[type=radio],
+input[type=checkbox] {
+  accent-color: var(--accent);
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0;
+}
+
+/* Choice chips for style and services (Flexbox wrap) */
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5rem;
+}
+
+.group .group-label { flex-basis: 100%; }
+
+label.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.55rem 0 0;
+  padding: 0.5rem 1rem;
+  font-weight: 400;
+  cursor: pointer;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+label.inline:hover { border-color: var(--gold); }
+
+label.inline:has(input:checked) {
+  background: var(--chip);
+  border-color: var(--accent);
+  font-weight: 500;
+}
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- review screen (step 4) ---------- */
+
+.review-intro { margin: 0.2rem 0 0; color: var(--muted); }
+
+.review-section {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem 0.5rem;
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.review-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.review-head h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.4rem;
+  color: var(--accent);
+}
+
+.review-list { margin: 0.5rem 0 0; padding: 0; list-style: none; }
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 35%) 1fr;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.row:first-child { border-top: none; }
+.row .label { font-weight: 600; }
+.row .value { white-space: pre-wrap; }
+.row .value.empty { color: var(--muted); }
+
+button.edit-btn {
+  padding: 0.35rem 1.1rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+  background: transparent;
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+/* ---------- success panel (after a successful submit) ---------- */
+
+.success { padding: 1rem 0 0.5rem; text-align: center; }
+.success:focus { outline: none; }
+
+.success h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--display);
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.success p { margin: 0 0 1.25rem; color: var(--muted); }
+
+/* ---------- messages and buttons ---------- */
+
+.error {
+  min-height: 1.5rem;
+  margin: 1rem 0 0;
+  color: var(--error);
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1.1rem;
+}
+
+button {
+  padding: 0.7rem 1.9rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(122, 46, 91, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(122, 46, 91, 0.32);
+}
+
+#backBtn {
+  color: var(--accent);
+  background: transparent;
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button.link {
+  margin-left: auto;
+  padding: 0.6rem 0;
+  color: var(--muted);
+  font-weight: 500;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+button.link:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  color: var(--accent);
+}
+
+/* ---------- mobile ---------- */
+
+@media (max-width: 560px) {
+  .dot-label { display: none; }
+
+  .row { grid-template-columns: 1fr; gap: 0.1rem; }
+
+  .nav button:not(.link) { flex: 1; }
+
+  button.link {
+    flex-basis: 100%;
+    margin-left: 0;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar, button, input, select, textarea, label.inline { transition: none; }
+  .step { animation: none; }
+  button:hover:not(:disabled) { transform: none; }
+}
+
+/* =========================================================================
+   TASK 3 — live validation messages
+   Nothing above this line was changed. These rules only style the
+   <span class="field-error"> elements that app.js inserts after each
+   required field (inside its <label>, so the grid above is unaffected)
+   or at the end of a .group for radio/checkbox groups.
+   ========================================================================= */
+
+.field-error {
+  display: block;
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--error);
+}
+
+/* No message right now: take up no space, so the layout doesn't jump
+   around for fields that are already valid or not yet touched. */
+.field-error:empty { display: none; }
+
+/* Inside a .group (radio/checkbox chips) the message needs its own
+   full-width line, same treatment as .group-label already gets above. */
+.group .field-error { flex-basis: 100%; margin-top: 0.15rem; }
+
+/* input[aria-invalid="true"] is already styled above; extend the same
+   red outline to selects and textareas so a required field of either
+   kind (should one be added later) looks consistent. */
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] { border-color: var(--error); }

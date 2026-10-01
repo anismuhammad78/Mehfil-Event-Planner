@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mehfil Event Planners wedding preferences survey">
+  <title>Mehfil Event Planners | Wedding Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="wrap" id="top">
+    <header>
+      <p class="brand">Mehfil Event Planners</p>
+      <h1>Tell us about your wedding</h1>
+      <p class="intro">Your answers are saved on this device as you go. Close the page any time and continue later.</p>
+    </header>
+
+    <p id="resumeNote" class="note" hidden></p>
+
+    <!-- PROGRESS BAR (above the steps) -->
+    <div class="progress">
+      <div class="progress-head">
+        <p id="stepLabel" class="step-label" aria-live="polite"></p>
+        <p id="percentLabel" class="percent"></p>
+      </div>
+
+      <div id="track" class="track" role="progressbar" aria-label="Survey progress"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="25">
+        <div id="bar" class="bar"></div>
+      </div>
+
+      <ol id="stepper" class="stepper">
+        <li><span class="dot">1</span><span class="dot-label">Contact</span></li>
+        <li><span class="dot">2</span><span class="dot-label">Details</span></li>
+        <li><span class="dot">3</span><span class="dot-label">Style</span></li>
+        <li><span class="dot">4</span><span class="dot-label">Review</span></li>
+      </ol>
+    </div>
+
+    <p id="saveStatus" class="save-status" role="status" aria-live="polite"></p>
+
+    <form id="survey" novalidate>
+
+      <!-- STEPS CONTAINER: three child divs, one per step -->
+      <div id="steps" class="steps">
+
+        <!-- STEP 1 (index 0) -->
+        <div class="step" data-step="0" data-title="Couple and contact" role="group" aria-labelledby="title0">
+          <h2 id="title0" class="step-title">Couple and contact</h2>
+          <div class="field-grid">
+            <label>Partner 1 name <span class="req" aria-hidden="true">*</span>
+              <input type="text" data-path="couple.partner1Name" autocomplete="name" required>
+            </label>
+            <label>Partner 2 name <span class="req" aria-hidden="true">*</span>
+              <input type="text" data-path="couple.partner2Name" required>
+            </label>
+            <label>Email <span class="req" aria-hidden="true">*</span>
+              <input type="email" data-path="couple.email" autocomplete="email" required>
+            </label>
+            <label>Phone
+              <input type="tel" data-path="couple.phone" autocomplete="tel">
+            </label>
+          </div>
+        </div>
+
+        <!-- STEP 2 (index 1) -->
+        <div class="step" data-step="1" data-title="Wedding details" role="group" aria-labelledby="title1" hidden>
+          <h2 id="title1" class="step-title">Wedding details</h2>
+          <div class="field-grid">
+            <label>Preferred wedding date <span class="req" aria-hidden="true">*</span>
+              <input type="date" data-path="wedding.date" required>
+            </label>
+            <label>Estimated number of guests <span class="req" aria-hidden="true">*</span>
+              <input type="number" min="1" max="5000" inputmode="numeric" data-path="wedding.guests" required>
+            </label>
+            <label>Venue or city <span class="req" aria-hidden="true">*</span>
+              <input type="text" data-path="wedding.venue" required>
+            </label>
+            <label>Estimated budget <span class="req" aria-hidden="true">*</span>
+              <select data-path="wedding.budget" required>
+                <option value="">Choose one</option>
+                <option value="under-500k">Under PKR 500,000</option>
+                <option value="500k-1m">PKR 500,000 – 1,000,000</option>
+                <option value="1m-2m">PKR 1,000,000 – 2,000,000</option>
+                <option value="2m-plus">PKR 2,000,000 or more</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <!-- STEP 3 (index 2) -->
+        <div class="step" data-step="2" data-title="Style, services and notes" role="group" aria-labelledby="title2" hidden>
+          <h2 id="title2" class="step-title">Style, services and notes</h2>
+
+          <div class="group" role="radiogroup" aria-labelledby="styleLbl">
+            <span id="styleLbl" class="group-label">Wedding style <span class="req" aria-hidden="true">*</span></span>
+            <label class="inline"><input type="radio" name="style" value="traditional" data-path="preferences.style" required> Traditional</label>
+            <label class="inline"><input type="radio" name="style" value="modern" data-path="preferences.style"> Modern</label>
+            <label class="inline"><input type="radio" name="style" value="luxury" data-path="preferences.style"> Luxury</label>
+            <label class="inline"><input type="radio" name="style" value="minimal" data-path="preferences.style"> Minimal</label>
+            <label class="inline"><input type="radio" name="style" value="outdoor" data-path="preferences.style"> Outdoor</label>
+          </div>
+
+          <div class="group" role="group" aria-labelledby="servicesLbl">
+            <span id="servicesLbl" class="group-label">Services you need <span class="req" aria-hidden="true">*</span></span>
+            <label class="inline"><input type="checkbox" value="venue" data-path="preferences.services" required> Venue coordination</label>
+            <label class="inline"><input type="checkbox" value="decor" data-path="preferences.services"> Décor and styling</label>
+            <label class="inline"><input type="checkbox" value="catering" data-path="preferences.services"> Catering</label>
+            <label class="inline"><input type="checkbox" value="photography" data-path="preferences.services"> Photography</label>
+            <label class="inline"><input type="checkbox" value="entertainment" data-path="preferences.services"> Entertainment</label>
+            <label class="inline"><input type="checkbox" value="guest-management" data-path="preferences.services"> Guest management</label>
+          </div>
+
+          <label>Favourite colours or theme <span class="req" aria-hidden="true">*</span>
+            <input type="text" data-path="preferences.colors" placeholder="e.g. ivory, gold and sage" required>
+          </label>
+
+          <label>Anything else we should know?
+            <textarea rows="4" data-path="notes.requests" placeholder="Special requests, rituals, dietary needs..."></textarea>
+          </label>
+
+        </div>
+
+        <!-- STEP 4 (index 3): review and submit -->
+        <div class="step" data-step="3" data-title="Review and submit" role="group" aria-labelledby="title3" hidden>
+          <h2 id="title3" class="step-title">Review and submit</h2>
+          <p class="review-intro">Check your answers. Use Edit to change a section; everything else is kept.</p>
+          <div id="reviewList"></div>
+        </div>
+
+      </div>
+
+      <p id="errorMsg" class="error" role="alert"></p>
+
+      <div class="nav">
+        <button type="button" id="backBtn">Back</button>
+        <button type="button" id="nextBtn">Next</button>
+        <button type="button" id="clearBtn" class="link">Clear saved answers</button>
+      </div>
+    </form>
+
+    <section id="successPanel" class="success" tabindex="-1" role="status" hidden>
+      <h2>Thank you!</h2>
+      <p id="successText"></p>
+      <button type="button" id="restartBtn">Start a new survey</button>
+    </section>
+  </main>
+
+  <script src="schema.js"></script>
+  <script src="storage.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
